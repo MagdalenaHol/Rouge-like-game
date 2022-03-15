@@ -1,5 +1,6 @@
 import string
 def display_board(board):
+<<<<<<< HEAD
     for i in range(len(board)):
         for j in range(len((board)[i])):
             if j == (len((board)[i])-1):
@@ -28,3 +29,7 @@ def get_board(file_name):
 a=get_board("board_lvl_1.txt")
 #b=get_board("board_lvl_2.txt")
 display_board(a)
+=======
+    for i in board:
+        print(*i)
+>>>>>>> mateusz
