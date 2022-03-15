@@ -21,6 +21,31 @@ def create_player():
     pass
 
 
+def add_to_inventory(inventory: dict, added_items: list) -> dict:
+    """Add to the inventory dictionary a list of items from added_items."""
+    for key in added_items:
+        if key not in inventory:
+            inventory[key] = 1
+        elif key in inventory:
+            inventory[key] += 1
+    return inventory
+  
+
+#print(add_to_inventory({'gold': 45, 'arrow': 12, 'torch': 6, 'rope': 2}, ['sword', 'sword', 'axe']))
+
+
+def remove_from_inventory(inventory: dict, removed_items: list) -> dict:
+    """Remove from the inventory dictionary a list of items from removed_items."""
+    for key in removed_items:
+        if key in inventory:
+            inventory[key] -= 1
+    inv_copy = inventory.copy()
+    for item, count in inv_copy.items():
+        if count <= 0:
+            inventory.pop(item)
+    return inventory
+
+
 def main():
     player = create_player()
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)

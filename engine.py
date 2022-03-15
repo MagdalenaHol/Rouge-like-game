@@ -9,7 +9,6 @@ def create_board(width, height):
     Returns:
     list: Game board
     '''
-    pass
 
 
 def put_player_on_board(board, player):
@@ -24,3 +23,19 @@ def put_player_on_board(board, player):
     Nothing
     '''
     pass
+
+
+def put_enemy_on_board(board):
+    
+    ENEMY_1_START_POS_X = 5
+    ENEMY_1_START_POS_Y = 18
+    ENEMY_2_START_POS_X = 15
+    ENEMY_2_START_POS_Y = 20
+    ENEMY_3_START_POS_X = 15
+    ENEMY_3_START_POS_Y = 5
+    board[ENEMY_1_START_POS_X][ENEMY_1_START_POS_Y] = '§'
+    board[ENEMY_2_START_POS_X][ENEMY_2_START_POS_Y] = '§'
+    board[ENEMY_3_START_POS_X][ENEMY_3_START_POS_Y] = '§'
+    return board
+
+
