@@ -52,13 +52,15 @@ def main():
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
     util.clear_screen()
     is_running = True
+    actual_position = []
     while is_running:
+        
         #engine.put_player_on_board(board, player)
         ui.display_board(board)
         key = util.key_pressed()
         if key == 'q':
             is_running = False
-        engine.movement_phase(board, player)
+        actual_position = engine.movement_phase(board, player, actual_position)
         util.clear_screen()
 
 
