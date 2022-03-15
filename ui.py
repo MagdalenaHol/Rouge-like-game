@@ -11,7 +11,10 @@ def display_board(board):
 def display_inventory(inventory: dict):
     print('-----------------')
     print('item name | count')
-fsewsfsefse
-fse
-fse
-fsewsfsefsese
+    print('-----------------')
+    arr = list(inventory.items())
+    arr.sort(key =lambda x: x[1])
+    for line in arr:
+        print('{:>9} |{:>6}'.format(*line))
+    print('-----------------')
+

@@ -18,7 +18,8 @@ def create_player():
     Returns:
     dictionary
     '''
-    pass
+    player = '@'
+    return player
 
 
 def add_to_inventory(inventory: dict, added_items: list) -> dict:
@@ -49,18 +50,15 @@ def remove_from_inventory(inventory: dict, removed_items: list) -> dict:
 def main():
     player = create_player()
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
-
     util.clear_screen()
     is_running = True
     while is_running:
-        engine.put_player_on_board(board, player)
+        #engine.put_player_on_board(board, player)
         ui.display_board(board)
-
         key = util.key_pressed()
         if key == 'q':
             is_running = False
-        else:
-            pass
+        engine.movement_phase(board, player)
         util.clear_screen()
 
 
