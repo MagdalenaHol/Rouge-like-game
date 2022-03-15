@@ -1,3 +1,5 @@
+
+
 def create_board(width, height):
     '''
     Creates a new game board based on input parameters.
@@ -9,10 +11,25 @@ def create_board(width, height):
     Returns:
     list: Game board
     '''
-    pass
+
+    board = []
+
+    for i in range(height):
+        board.append(['.'] * width)
+    return board
+
+    
+
+
+
+
+
+
+
 
 
 def put_player_on_board(board, player):
+    board[3][3] = player
     '''
     Modifies the game board by placing the player icon at its coordinates.
 
@@ -23,4 +40,4 @@ def put_player_on_board(board, player):
     Returns:
     Nothing
     '''
-    pass
+    return player
