@@ -44,10 +44,8 @@ def put_player_on_board(board, player):
 
 
 
-def movement_phase(board, player):
+def movement_phase(board, player, actual_position):
     start_position = [3, 3]
-    actual_position = []
-    print(actual_position)
     key = util.key_pressed()
     if len(actual_position) > 1:
             del actual_position[0]
@@ -59,7 +57,7 @@ def movement_phase(board, player):
                 board[actual_position[0][0]][actual_position[0][1] + 1] = player
                 actual_position.append((actual_position[0][0], actual_position[0][1] + 1))
                 board[actual_position[0][0]][actual_position[0][1]] = '.'
-                print(actual_position)
+                #print(actual_position)
     if key == 's':
         if len(actual_position) == 0:
             board[start_position[0] + 1][start_position[1]] = player
