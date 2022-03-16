@@ -20,7 +20,6 @@ def create_player():
     player = {
         'name': "Player",
         'health': 100,
-        'armor': 50,
         'damage': 30,
         'pos_x': PLAYER_START_X,
         'pos_y': PLAYER_START_Y,
@@ -36,22 +35,25 @@ def create_player():
 def main():
     player = create_player()
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
+    board[5][5] = 'X'
+    board[7][7] = 'T'
     util.clear_screen()
     is_running = True
-    actual_position = []
+    #actual_position = []
     while is_running:
         engine.put_enemy_on_board(board) 
-        #engine.put_player_on_board(board, player)
+        engine.put_player_on_board(board, player)
         ui.display_board(board)
+
         key = util.key_pressed()
-        
         if key == 'q':
             is_running = False
         elif key == 'i':
             ui.display_inventory(player['inventory'])
-        actual_position = engine.movement_phase(board, player['icon'], actual_position)
+        else:
+            engine.movement_phase(player, key, board)
         util.clear_screen()
-        #engine.event(player, board)
+        engine.events(player, board)
 
 
 if __name__ == '__main__':

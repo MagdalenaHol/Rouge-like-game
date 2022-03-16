@@ -1,4 +1,6 @@
 import util
+import sys
+
 def create_board(width, height):
     '''
     Creates a new game board based on input parameters.
@@ -13,12 +15,14 @@ def create_board(width, height):
 
     for i in range(height):
         board.append(['.'] * width)
+    for i in range(1):
+        board.append(['_'] * width)
     return board
 
 
 
 def put_player_on_board(board, player):
-    board[3][3] = player
+    board[player['pos_x']][player['pos_y']] = player['icon']
     '''
     Modifies the game board by placing the player icon at its coordinates.
     Args:
@@ -27,60 +31,64 @@ def put_player_on_board(board, player):
     Returns:
     Nothing
     '''
-    return player
 
 
+def movement_phase(player, key, board):
+    obstacles = ['|', '_']
+    while True:
+        if key == 'w':
+            if board[player['pos_x'] - 1][player['pos_y']] in obstacles:
+                break
+            else:
+                player['pos_x'] = player['pos_x'] - 1
+                break
+        elif key == 's':
+            if board[player['pos_x'] + 1][player['pos_y']] in obstacles:
+                break
+            else:
+                player['pos_x'] = player['pos_x'] + 1
+                break
+        elif key == 'a':
+            if board[player['pos_x'] ][player['pos_y'] - 1] in obstacles:
+                break
+            else:
+                player['pos_y'] = player['pos_y'] - 1    
+                break    
+        elif key == 'd':
+            if board[player['pos_x'] ][player['pos_y'] + 1] in obstacles:
+                break
+            else:
+                player['pos_y'] = player['pos_y'] + 1 
+                break        
+        else:
+            key = util.key_pressed()
+            if key == 'q':
+                sys.exit()
 
 
-def movement_phase(board, player, actual_position):
-    start_position = [3, 3]
-    key = util.key_pressed()
-    if len(actual_position) > 1:
-            del actual_position[0]
-    if key == 'd':
-        if len(actual_position) == 0:
-                board[start_position[0]][start_position[1] + 1] = player
-                actual_position.append((start_position[0], start_position[1] + 1))
-        elif len(actual_position) > 0:
-                board[actual_position[0][0]][actual_position[0][1] + 1] = player
-                actual_position.append((actual_position[0][0], actual_position[0][1] + 1))
-                board[actual_position[0][0]][actual_position[0][1]] = '.'
-                #print(actual_position)
-    if key == 's':
-        if len(actual_position) == 0:
-            board[start_position[0] + 1][start_position[1]] = player
-            actual_position.append((start_position[0] + 1, start_position[1]))
-        elif len(actual_position) > 0:
-            board[actual_position[0][0] + 1][actual_position[0][1]] = player
-            actual_position.append((actual_position[0][0] + 1, actual_position[0][1]))
-            board[actual_position[0][0]][actual_position[0][1]] = '.'
-    if key == 'a':
-        if len(actual_position) == 0:
-            board[start_position[0]][start_position[1] - 1] = player
-            actual_position.append((start_position[0], start_position[1] - 1))
-        elif len(actual_position) > 0:
-            board[actual_position[0][0]][actual_position[0][1] - 1] = player
-            actual_position.append((actual_position[0][0], actual_position[0][1] - 1))
-            board[actual_position[0][0]][actual_position[0][1]] = '.'
-    if key == 'w':
-        if len(actual_position) == 0:
-            board[start_position[0] - 1][start_position[1]] = player
-            actual_position.append((start_position[0] - 1, start_position[1]))
-        elif len(actual_position) > 0:
-            board[actual_position[0][0] - 1][actual_position[0][1]] = player
-            actual_position.append((actual_position[0][0] - 1, actual_position[0][1]))
-            board[actual_position[0][0]][actual_position[0][1]] = '.'
-    return actual_position
 
 def put_enemy_on_board(board):
-    
-    ENEMY_1_START_POS_X = 5
-    ENEMY_1_START_POS_Y = 18
-    ENEMY_2_START_POS_X = 15
-    ENEMY_2_START_POS_Y = 20
-    ENEMY_3_START_POS_X = 15
-    ENEMY_3_START_POS_Y = 5
-    board[ENEMY_1_START_POS_X][ENEMY_1_START_POS_Y] = '§'
-    board[ENEMY_2_START_POS_X][ENEMY_2_START_POS_Y] = '§'
-    board[ENEMY_3_START_POS_X][ENEMY_3_START_POS_Y] = '§'
-    return board
+    enemy = create_enemy()
+    board[enemy['pos_x']][enemy['pos_y']] = enemy['icon']
+
+
+def events(player, board):
+    if board[player['pos_x']][player['pos_y']] == 'X':
+        print('Zdobywasz klucz!')
+    if board[player['pos_x']][player['pos_y']] == 'T':
+        print('Zdobywasz miecz!')
+    if board[player['pos_x']][player['pos_y']] == '§':
+        util.clear_screen()
+        #battle.new_battle(player, enemy())
+
+
+def create_enemy():    
+    enemy_1 = {
+        'name': "Snake",
+        'health': 15,
+        'damage': 30,
+        'pos_x': 5,
+        'pos_y': 18,
+        'icon' : '§',
+        }
+    return enemy_1
