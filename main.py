@@ -20,24 +20,28 @@ def create_player():
         'pos_y': PLAYER_START_Y,
         'icon' : PLAYER_ICON,
         'inventory': {
-                'mushroom': 1,
-                'torch': 22    
+                
+                   
         }
     }
 
     return player
 
+
+
 def main():
     player = create_player()
     board = engine.create_board("board_lvl_1.txt")
-    board[5][5] = 'X'
-    board[7][7] = 'T'
+    items = engine.create_items()
+    engine.put_items_on_board(board,items)
+    
     util.clear_screen()
     is_running = True
     
     engine.put_enemy_on_board(board) 
     while is_running:
         engine.put_player_on_board(board, player)
+        
         ui.display_board(board)
 
         old_pos_x = player['pos_x']
@@ -54,8 +58,7 @@ def main():
             engine.movement_phase(player, key, board)
         board[old_pos_x][old_pos_y] = ' '
         util.clear_screen()
-        engine.events(player, board)
-
+        engine.events(player, board,items)
 
 if __name__ == '__main__':
     main()

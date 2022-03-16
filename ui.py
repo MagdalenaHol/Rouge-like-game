@@ -9,16 +9,10 @@ def display_board(board):
                 print(str(board[i][j]) + " ", end="")
 
 
-def display_inventory(inventory: dict):
-    print('-----------------')
-    print('item name | count')
-    print('-----------------')
-    arr = list(inventory.items())
-    arr.sort(key=lambda x: x[1])
-    for line in arr:
-        print('{:>9} |{:>6}'.format(*line))
-    print('-----------------')
-    
+
+def display_inventory(inventory):
+    for key, value in inventory.items():
+        print('{}: {}'.format(key, value, end="\n"))    
 
 
 

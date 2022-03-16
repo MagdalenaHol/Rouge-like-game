@@ -1,6 +1,7 @@
 import util
 import sys
 import battle
+import engine
 
 
 
@@ -23,7 +24,6 @@ def create_board(file_name):
 def put_player_on_board(board, player):
     board[player['pos_x']][player['pos_y']] = player['icon']
 
-
 def movement_phase(player, key, board):
     obstacles = ['|', '_']
     while True:
@@ -40,22 +40,21 @@ def movement_phase(player, key, board):
                 player['pos_x'] = player['pos_x'] + 1
                 break
         elif key == 'a':
-            if board[player['pos_x'] ][player['pos_y'] - 1] in obstacles:
+            if board[player['pos_x']][player['pos_y'] - 1] in obstacles:
                 break
             else:
-                player['pos_y'] = player['pos_y'] - 1    
-                break    
+                player['pos_y'] = player['pos_y'] - 1
+                break
         elif key == 'd':
-            if board[player['pos_x'] ][player['pos_y'] + 1] in obstacles:
+            if board[player['pos_x']][player['pos_y'] + 1] in obstacles:
                 break
             else:
-                player['pos_y'] = player['pos_y'] + 1 
-                break        
+                player['pos_y'] = player['pos_y'] + 1
+                break
         else:
             key = util.key_pressed()
             if key == 'q':
                 sys.exit()
-
 
 
 def put_enemy_on_board(board):
@@ -65,17 +64,49 @@ def put_enemy_on_board(board):
     board[enemy_2['pos_x']][enemy_2['pos_y']] = enemy_2['icon']
     enemy_3 = create_enemy_3()
     board[enemy_3['pos_x']][enemy_3['pos_y']] = enemy_3['icon']
-    boss = create_boss()
-    board[boss['pos_x']][boss['pos_y']] = boss['icon']
 
-def events(player, board):
+
+
+def put_items_on_board(board, items):
+    # items[0]-key
+    # items[1]-stick
+    # items[2]-potion1
+
+    board[items[0]['pos_x']][items[0]['pos_y']] = items[0]['icon']
+    board[items[1]['pos_x']][items[1]['pos_y']] = items[1]['icon']
+    board[items[2]['pos_x']][items[2]['pos_y']] = items[2]['icon']
+
+
+def add_to_inventory(player, item):
+    item.pop('pos_y', None)
+    item.pop('pos_x', None)
+    item.pop('icon', None)
+    if item["name"] not in player.keys():
+        player['inventory'][item["name"]] = item
+    else:
+        player['inventory'][item["amount"]] += [item["amount"]]
+        pass
+    return player
+
+
+def events(player, board, items):
     enemy_1 = create_enemy_1()
     enemy_2 = create_enemy_2()
     enemy_3 = create_enemy_3()
     if board[player['pos_x']][player['pos_y']] == 'X':
+        board[items[0]['pos_x']][items[0]['pos_y']] == ' '
+        add_to_inventory(player, items[0])
         print('Zdobywasz klucz!')
+
     if board[player['pos_x']][player['pos_y']] == 'T':
+        board[items[1]['pos_x']][items[1]['pos_y']] == ' '
+        add_to_inventory(player, items[1])
         print('Zdobywasz miecz!')
+    if board[player['pos_x']][player['pos_y']] == 'P':
+        board[items[2]['pos_x']][items[2]['pos_y']] == ' '
+        add_to_inventory(player, items[2])
+        print('Zdobywasz miksturki!')
+
     if board[player['pos_x']][player['pos_y']] == '§':
         util.clear_screen()
         battle.new_battle(player, enemy_1, board)
@@ -87,15 +118,17 @@ def events(player, board):
         battle.new_battle(player, enemy_3, board)        
 
 
-def create_enemy_1():    
+
+
+def create_enemy_1():
     enemy_1 = {
         'name': "Snake",
         'health': 35,
         'damage': 20,
         'pos_x': 5,
         'pos_y': 18,
-        'icon' : '§',
-        }
+        'icon': '§',
+    }
     return enemy_1
 
 
@@ -123,15 +156,46 @@ def create_enemy_3():
     return enemy_3
 
 
-def create_boss():
-    boss = {
-        'name': "Mega Boss",
-        'health': 666,
-        'damage': 66,
-        'pos_x': 17,
-        'pos_x': 15,
-        'pos_x': 15,
-        'pos_y': 17,
-        'icon' : '█',
-        }
-    return boss
+def create_items():
+    key = create_key()
+    stick = create_stick()
+    potion1 = create_potion(13, 13)
+    potion2 = create_potion(13, 4)
+    return key, stick, potion1
+
+
+def create_key():
+    key = {
+        'name': 'Key',
+        'amount': 1,
+        'pos_x': 5,
+        'pos_y': 5,
+        'icon': 'X',
+    }
+    return key
+
+
+def create_potion(x, y):
+    potion = {
+        'name': 'potion',
+        'amount': 3,
+        'healing': 30,
+        'pos_x': x,
+        'pos_y': y,
+        'icon': 'P',
+    }
+    return potion
+
+
+def create_stick():
+
+    stick = {
+        'name': 'stick',
+        'type': 'weapon',
+        'amount': 1,
+        'damage': 30,
+        'pos_x': 7,
+        'pos_y': 7,
+        'icon': 'T',
+    }
+    return stick
