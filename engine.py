@@ -91,8 +91,6 @@ def movement_phase(board, player, actual_position):
             actual_position.append((actual_position[0][0] - 1, actual_position[0][1]))
             board[actual_position[0][0]][actual_position[0][1]] = '.'
     return actual_position
-<<<<<<< HEAD
-=======
 
 def put_enemy_on_board(board):
     
@@ -106,4 +104,3 @@ def put_enemy_on_board(board):
     board[ENEMY_2_START_POS_X][ENEMY_2_START_POS_Y] = '§'
     board[ENEMY_3_START_POS_X][ENEMY_3_START_POS_Y] = '§'
     return board
->>>>>>> origin/szymon
