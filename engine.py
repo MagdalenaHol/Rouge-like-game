@@ -65,6 +65,8 @@ def put_enemy_on_board(board):
     board[enemy_2['pos_x']][enemy_2['pos_y']] = enemy_2['icon']
     enemy_3 = create_enemy_3()
     board[enemy_3['pos_x']][enemy_3['pos_y']] = enemy_3['icon']
+    boss = create_boss()
+    board[boss['pos_x']][boss['pos_y']] = boss['icon']
 
 def events(player, board):
     enemy_1 = create_enemy_1()
@@ -80,7 +82,7 @@ def events(player, board):
     if board[player['pos_x']][player['pos_y']] == '¤':
         util.clear_screen()
         battle.new_battle(player, enemy_2, board)
-    if board[player['pos_x']][player['pos_y']] == ',':
+    if board[player['pos_x']][player['pos_y']] == '°':
         util.clear_screen()
         battle.new_battle(player, enemy_3, board)        
 
@@ -108,6 +110,7 @@ def create_enemy_2():
         }
     return enemy_2
 
+
 def create_enemy_3():    
     enemy_3 = {
         'name': "Mosquito",
@@ -115,6 +118,20 @@ def create_enemy_3():
         'damage': 99,
         'pos_x': 17,
         'pos_y': 26,
-        'icon' : ',',
+        'icon' : '°',
         }
     return enemy_3
+
+
+def create_boss():
+    boss = {
+        'name': "Mega Boss",
+        'health': 666,
+        'damage': 66,
+        'pos_x': 17,
+        'pos_x': 15,
+        'pos_x': 15,
+        'pos_y': 17,
+        'icon' : '█',
+        }
+    return boss
