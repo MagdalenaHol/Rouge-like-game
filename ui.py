@@ -20,10 +20,5 @@ def display_inventory(inventory: dict):
     print('-----------------')
     
 
-def get_board(file_name):
-    board = []
-    with open(file_name, "r") as file:
-        lines = file.readlines()
-        board = [element.replace("\n", "") for element in lines]
-    return board
+
 

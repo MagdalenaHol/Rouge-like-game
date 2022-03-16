@@ -19,12 +19,9 @@ def new_battle(player, enemy, board):
                 input('Press Enter')
                 if player['health'] < 0:
                     again = input('You died! Wnna play again? (y/n): ')
+
                     if again.startswith('y'):
                         main.main()
     
     if attack.startswith('n'):
         enemy = engine.put_enemy_on_board(board)
-
-
-            
-            

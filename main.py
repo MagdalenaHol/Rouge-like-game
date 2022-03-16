@@ -14,7 +14,7 @@ board = []
 def create_player():
     player = {
         'name': "Player",
-        'health': 100,
+        'health': 5,
         'damage': 30,
         'pos_x': PLAYER_START_X,
         'pos_y': PLAYER_START_Y,
@@ -27,10 +27,9 @@ def create_player():
 
     return player
 
-
 def main():
     player = create_player()
-    board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
+    board = engine.create_board("board_lvl_1.txt")
     board[5][5] = 'X'
     board[7][7] = 'T'
     util.clear_screen()
