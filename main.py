@@ -44,7 +44,6 @@ def main():
         old_pos_x = player['pos_x']
         old_pos_y = player['pos_y']
 
-
         key = util.key_pressed()
         if key == 'q':
             is_running = False

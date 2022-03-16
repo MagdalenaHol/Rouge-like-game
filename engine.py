@@ -76,13 +76,13 @@ def events(player, board):
     if board[player['pos_x']][player['pos_y']] == '§':
         print('Zdobywasz miecz!')
         util.clear_screen()
-        battle.new_battle(player, enemy)
+        battle.new_battle(player, enemy, board)
 
 
 def create_enemy():    
     enemy_1 = {
         'name': "Snake",
-        'health': 15,
+        'health': 35,
         'damage': 30,
         'pos_x': 5,
         'pos_y': 18,
