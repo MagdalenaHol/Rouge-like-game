@@ -2,27 +2,28 @@ import util
 import sys
 import battle
 import engine
-
+import creating_things
 
 
 def get_file_board(file_name):
-        file = open(file_name, "r")
-        board = file.readlines()
-        return board
+    file = open(file_name, "r")
+    board = file.readlines()
+    return board
 
 
 def create_board(file_name):
-        board = get_file_board(file_name)
-        split_board = []
-        for line in board:
-                split_lines = list(line)
-                split_lines = split_lines[:-1]
-                split_board.append(split_lines)
-        return split_board
+    board = get_file_board(file_name)
+    split_board = []
+    for line in board:
+        split_lines = list(line)
+        split_lines = split_lines[:-1]
+        split_board.append(split_lines)
+    return split_board
 
 
 def put_player_on_board(board, player):
     board[player['pos_x']][player['pos_y']] = player['icon']
+
 
 def movement_phase(player, key, board):
     obstacles = ['|', '_']
@@ -58,29 +59,28 @@ def movement_phase(player, key, board):
 
 
 def put_enemy_on_board(board):
-    enemy_1 = create_enemy_1()
+    enemy_1 = creating_things.create_enemy_1()
     board[enemy_1['pos_x']][enemy_1['pos_y']] = enemy_1['icon']
-    enemy_2 = create_enemy_2()
+    enemy_2 = creating_things.create_enemy_2()
     board[enemy_2['pos_x']][enemy_2['pos_y']] = enemy_2['icon']
-    enemy_3 = create_enemy_3()
+    enemy_3 = creating_things.create_enemy_3()
     board[enemy_3['pos_x']][enemy_3['pos_y']] = enemy_3['icon']
 
 
-
 def put_items_on_board(board, items):
-    # items[0]-key
-    # items[1]-stick
-    # items[2]-potion1
-
     board[items[0]['pos_x']][items[0]['pos_y']] = items[0]['icon']
     board[items[1]['pos_x']][items[1]['pos_y']] = items[1]['icon']
     board[items[2]['pos_x']][items[2]['pos_y']] = items[2]['icon']
 
 
+def item_pop(item, x):
+    item.pop(x, None)
+
+
 def add_to_inventory(player, item):
-    item.pop('pos_y', None)
-    item.pop('pos_x', None)
-    item.pop('icon', None)
+    item_pop(item, 'pos_y')
+    item_pop(item, 'pos_x')
+    item_pop(item, 'icon')
     if item["name"] not in player.keys():
         player['inventory'][item["name"]] = item
     else:
@@ -90,14 +90,13 @@ def add_to_inventory(player, item):
 
 
 def events(player, board, items):
-    enemy_1 = create_enemy_1()
-    enemy_2 = create_enemy_2()
-    enemy_3 = create_enemy_3()
+    enemy_1 = creating_things.create_enemy_1()
+    enemy_2 = creating_things.create_enemy_2()
+    enemy_3 = creating_things.create_enemy_3()
     if board[player['pos_x']][player['pos_y']] == 'X':
         board[items[0]['pos_x']][items[0]['pos_y']] == ' '
         add_to_inventory(player, items[0])
         print('Zdobywasz klucz!')
-
     if board[player['pos_x']][player['pos_y']] == 'T':
         board[items[1]['pos_x']][items[1]['pos_y']] == ' '
         add_to_inventory(player, items[1])
@@ -106,7 +105,6 @@ def events(player, board, items):
         board[items[2]['pos_x']][items[2]['pos_y']] == ' '
         add_to_inventory(player, items[2])
         print('Zdobywasz miksturki!')
-
     if board[player['pos_x']][player['pos_y']] == '§':
         util.clear_screen()
         battle.new_battle(player, enemy_1, board)
@@ -115,87 +113,10 @@ def events(player, board, items):
         battle.new_battle(player, enemy_2, board)
     if board[player['pos_x']][player['pos_y']] == '°':
         util.clear_screen()
-        battle.new_battle(player, enemy_3, board)        
-
-
-
-
-def create_enemy_1():
-    enemy_1 = {
-        'name': "Snake",
-        'health': 35,
-        'damage': 20,
-        'pos_x': 5,
-        'pos_y': 18,
-        'icon': '§',
-    }
-    return enemy_1
-
-
-def create_enemy_2():    
-    enemy_2 = {
-        'name': "Boar",
-        'health': 70,
-        'damage': 40,
-        'pos_x': 18,
-        'pos_y': 5,
-        'icon' : '¤',
-        }
-    return enemy_2
-
-
-def create_enemy_3():    
-    enemy_3 = {
-        'name': "Mosquito",
-        'health': 1,
-        'damage': 99,
-        'pos_x': 17,
-        'pos_y': 26,
-        'icon' : '°',
-        }
-    return enemy_3
-
+        battle.new_battle(player, enemy_3, board)
 
 def create_items():
-    key = create_key()
-    stick = create_stick()
-    potion1 = create_potion(13, 13)
-    potion2 = create_potion(13, 4)
+    key = creating_things.create_key()
+    stick = creating_things.create_stick()
+    potion1 = creating_things.create_potion(13, 13)
     return key, stick, potion1
-
-
-def create_key():
-    key = {
-        'name': 'Key',
-        'amount': 1,
-        'pos_x': 5,
-        'pos_y': 5,
-        'icon': 'X',
-    }
-    return key
-
-
-def create_potion(x, y):
-    potion = {
-        'name': 'potion',
-        'amount': 3,
-        'healing': 30,
-        'pos_x': x,
-        'pos_y': y,
-        'icon': 'P',
-    }
-    return potion
-
-
-def create_stick():
-
-    stick = {
-        'name': 'stick',
-        'type': 'weapon',
-        'amount': 1,
-        'damage': 30,
-        'pos_x': 7,
-        'pos_y': 7,
-        'icon': 'T',
-    }
-    return stick
