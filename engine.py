@@ -1,5 +1,6 @@
 import util
 import sys
+import battle
 
 
 def create_board(width, height):
@@ -24,17 +25,6 @@ def create_board(width, height):
 
 def put_player_on_board(board, player):
     board[player['pos_x']][player['pos_y']] = player['icon']
-    '''
-    Modifies the game board by placing the player icon at its coordinates.
-    Args:
-    list: The game board
-    dictionary: The player information containing the icon and coordinates
-    Returns:
-    Nothing
-    '''
-
-    return player
-
 
 
 def movement_phase(player, key, board):
@@ -77,13 +67,16 @@ def put_enemy_on_board(board):
 
 
 def events(player, board):
+    enemy = create_enemy()
+
     if board[player['pos_x']][player['pos_y']] == 'X':
         print('Zdobywasz klucz!')
     if board[player['pos_x']][player['pos_y']] == 'T':
         print('Zdobywasz miecz!')
     if board[player['pos_x']][player['pos_y']] == '§':
+        print('Zdobywasz miecz!')
         util.clear_screen()
-        #battle.new_battle(player, enemy())
+        battle.new_battle(player, enemy)
 
 
 def create_enemy():    

@@ -9,15 +9,9 @@ PLAYER_START_Y = 3
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
 
+board = []
 
 def create_player():
-    '''
-    Creates a 'player' dictionary for storing all player related informations - i.e. player icon, player position.
-    Fell free to extend this dictionary!
-    Returns:
-    dictionary
-    '''
-
     player = {
         'name': "Player",
         'health': 100,
@@ -41,19 +35,26 @@ def main():
     board[7][7] = 'T'
     util.clear_screen()
     is_running = True
-    #actual_position = []
+    
+    engine.put_enemy_on_board(board) 
     while is_running:
-        engine.put_enemy_on_board(board) 
         engine.put_player_on_board(board, player)
         ui.display_board(board)
+
+        old_pos_x = player['pos_x']
+        old_pos_y = player['pos_y']
+
+
         key = util.key_pressed()
         if key == 'q':
             is_running = False
 
         elif key == 'i':
             ui.display_inventory(player['inventory'])
+            input("Press enter to exit from inventory")
         else:
             engine.movement_phase(player, key, board)
+        board[old_pos_x][old_pos_y] = ' '
         util.clear_screen()
         engine.events(player, board)
 
