@@ -76,6 +76,7 @@ def events(player, board):
         battle.new_battle(player, enemy, board)
 
 
+
 def create_enemy():    
     enemy_1 = {
         'name': "Snake",
