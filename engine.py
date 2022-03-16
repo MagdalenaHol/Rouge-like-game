@@ -1,21 +1,24 @@
 import util
 import sys
 
-def create_board(width, height):
-    '''
-    Creates a new game board based on input parameters.
-    Args:
-    int: The width of the board
-    int: The height of the board
-    Returns:
-    list: Game board
-    '''
 
+def create_board(width, height):
     board = []
     for i in range(height):
-        board.append(['.'] * width)
-    for i in range(1):
-        board.append(['_'] * width)
+        board.append([' '] * width)
+    for i in range(len(board)):
+        for j in range(len(board[i])):
+            if i == 0 or i == len(board)-1:
+                board[i][j] = "_"
+            else:
+                board[i][j] = " "
+            if j == 0 or j == len(board[i])-1:
+                board[i][j] = "|"
+
+    board[0][0] = "."
+    board[0][29] = "."
+    board[19][0] = "."
+    board[19][29] = "."
     return board
 
 
@@ -29,7 +32,10 @@ def put_player_on_board(board, player):
     Returns:
     Nothing
     '''
- 
+
+    return player
+
+
 
 def movement_phase(player, key, board):
     obstacles = ['|', '_']

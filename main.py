@@ -17,6 +17,7 @@ def create_player():
     Returns:
     dictionary
     '''
+
     player = {
         'name': "Player",
         'health': 100,
@@ -29,6 +30,7 @@ def create_player():
                 'torch': 22    
         }
     }
+
     return player
 
 
@@ -44,10 +46,10 @@ def main():
         engine.put_enemy_on_board(board) 
         engine.put_player_on_board(board, player)
         ui.display_board(board)
-
         key = util.key_pressed()
         if key == 'q':
             is_running = False
+
         elif key == 'i':
             ui.display_inventory(player['inventory'])
         else:
