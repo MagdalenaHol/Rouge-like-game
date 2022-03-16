@@ -1,40 +1,27 @@
 import util
 import sys
+import battle
 
 
-def create_board(width, height):
-    board = []
-    for i in range(height):
-        board.append([' '] * width)
-    for i in range(len(board)):
-        for j in range(len(board[i])):
-            if i == 0 or i == len(board)-1:
-                board[i][j] = "_"
-            else:
-                board[i][j] = " "
-            if j == 0 or j == len(board[i])-1:
-                board[i][j] = "|"
 
-    board[0][0] = "."
-    board[0][29] = "."
-    board[19][0] = "."
-    board[19][29] = "."
-    return board
+def get_file_board(file_name):
+        file = open(file_name, "r")
+        board = file.readlines()
+        return board
+
+
+def create_board(file_name):
+        board = get_file_board(file_name)
+        split_board = []
+        for line in board:
+                split_lines = list(line)
+                split_lines = split_lines[:-1]
+                split_board.append(split_lines)
+        return split_board
 
 
 def put_player_on_board(board, player):
     board[player['pos_x']][player['pos_y']] = player['icon']
-    '''
-    Modifies the game board by placing the player icon at its coordinates.
-    Args:
-    list: The game board
-    dictionary: The player information containing the icon and coordinates
-    Returns:
-    Nothing
-    '''
-
-    return player
-
 
 
 def movement_phase(player, key, board):
@@ -77,19 +64,22 @@ def put_enemy_on_board(board):
 
 
 def events(player, board):
+    enemy = create_enemy()
+
     if board[player['pos_x']][player['pos_y']] == 'X':
         print('Zdobywasz klucz!')
     if board[player['pos_x']][player['pos_y']] == 'T':
         print('Zdobywasz miecz!')
     if board[player['pos_x']][player['pos_y']] == '§':
+        print('Zdobywasz miecz!')
         util.clear_screen()
-        #battle.new_battle(player, enemy())
+        battle.new_battle(player, enemy, board)
 
 
 def create_enemy():    
     enemy_1 = {
         'name': "Snake",
-        'health': 15,
+        'health': 115,
         'damage': 30,
         'pos_x': 5,
         'pos_y': 18,
