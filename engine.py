@@ -59,30 +59,62 @@ def movement_phase(player, key, board):
 
 
 def put_enemy_on_board(board):
-    enemy = create_enemy()
-    board[enemy['pos_x']][enemy['pos_y']] = enemy['icon']
-
+    enemy_1 = create_enemy_1()
+    board[enemy_1['pos_x']][enemy_1['pos_y']] = enemy_1['icon']
+    enemy_2 = create_enemy_2()
+    board[enemy_2['pos_x']][enemy_2['pos_y']] = enemy_2['icon']
+    enemy_3 = create_enemy_3()
+    board[enemy_3['pos_x']][enemy_3['pos_y']] = enemy_3['icon']
 
 def events(player, board):
-    enemy = create_enemy()
-
+    enemy_1 = create_enemy_1()
+    enemy_2 = create_enemy_2()
+    enemy_3 = create_enemy_3()
     if board[player['pos_x']][player['pos_y']] == 'X':
         print('Zdobywasz klucz!')
     if board[player['pos_x']][player['pos_y']] == 'T':
         print('Zdobywasz miecz!')
     if board[player['pos_x']][player['pos_y']] == '§':
-        print('Zdobywasz miecz!')
         util.clear_screen()
-        battle.new_battle(player, enemy, board)
+        battle.new_battle(player, enemy_1, board)
+    if board[player['pos_x']][player['pos_y']] == '¤':
+        util.clear_screen()
+        battle.new_battle(player, enemy_2, board)
+    if board[player['pos_x']][player['pos_y']] == ',':
+        util.clear_screen()
+        battle.new_battle(player, enemy_3, board)        
 
 
-def create_enemy():    
+def create_enemy_1():    
     enemy_1 = {
         'name': "Snake",
         'health': 35,
-        'damage': 30,
+        'damage': 20,
         'pos_x': 5,
         'pos_y': 18,
         'icon' : '§',
         }
     return enemy_1
+
+
+def create_enemy_2():    
+    enemy_2 = {
+        'name': "Boar",
+        'health': 70,
+        'damage': 40,
+        'pos_x': 18,
+        'pos_y': 5,
+        'icon' : '¤',
+        }
+    return enemy_2
+
+def create_enemy_3():    
+    enemy_3 = {
+        'name': "Mosquito",
+        'health': 1,
+        'damage': 99,
+        'pos_x': 17,
+        'pos_y': 26,
+        'icon' : ',',
+        }
+    return enemy_3

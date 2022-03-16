@@ -14,7 +14,7 @@ board = []
 def create_player():
     player = {
         'name': "Player",
-        'health': 5,
+        'health': 100,
         'damage': 30,
         'pos_x': PLAYER_START_X,
         'pos_y': PLAYER_START_Y,
