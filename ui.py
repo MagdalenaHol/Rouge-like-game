@@ -1,6 +1,5 @@
 import string
 
-
 def display_board(board):
     for i in range(len(board)):
         for j in range(len((board)[i])):
@@ -19,7 +18,7 @@ def display_inventory(inventory: dict):
     for line in arr:
         print('{:>9} |{:>6}'.format(*line))
     print('-----------------')
-
+    
 
 def get_board(file_name):
     board = []
