@@ -12,13 +12,11 @@ def create_board(width, height):
     '''
 
     board = []
-
     for i in range(height):
         board.append(['.'] * width)
     for i in range(1):
         board.append(['_'] * width)
     return board
-
 
 
 def put_player_on_board(board, player):
@@ -31,7 +29,7 @@ def put_player_on_board(board, player):
     Returns:
     Nothing
     '''
-
+ 
 
 def movement_phase(player, key, board):
     obstacles = ['|', '_']
