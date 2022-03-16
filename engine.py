@@ -1,9 +1,6 @@
 import util
-<<<<<<< HEAD
     
 
-=======
->>>>>>> origin/Mateusz
 def create_board(width, height):
     '''
     Creates a new game board based on input parameters.
@@ -16,8 +13,6 @@ def create_board(width, height):
     list: Game board
     '''
 
-<<<<<<< HEAD
-=======
     board = []
 
     for i in range(height):
@@ -32,7 +27,6 @@ def create_board(width, height):
 
 
 
->>>>>>> origin/Mateusz
 
 
 def put_player_on_board(board, player):
@@ -47,7 +41,6 @@ def put_player_on_board(board, player):
     Returns:
     Nothing
     '''
-<<<<<<< HEAD
     # pass
 
 def create_enemy(enemy_sybol, enemy_start_x, enemy_start_y):
@@ -66,7 +59,6 @@ def put_enemy_on_board(board, enemy):
     
     return board
 
-=======
     return player
 
 
@@ -111,4 +103,3 @@ def movement_phase(board, player, actual_position):
             actual_position.append((actual_position[0][0] - 1, actual_position[0][1]))
             board[actual_position[0][0]][actual_position[0][1]] = '.'
     return actual_position
->>>>>>> origin/Mateusz
