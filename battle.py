@@ -1,4 +1,3 @@
-import engine
 import util
 import main
 def new_battle(player, enemy, board):
@@ -12,13 +11,12 @@ def new_battle(player, enemy, board):
             input('Press Enter')
             break
         else:
-
             print(enemy['name'], 'has ',enemy['health'], 'HP left')
             player['health'] = player['health'] - enemy['damage']
             if player['health'] <= 0:
                 again = input('You died! Wanna play again? (y/n): ')
                 if again.startswith('y'):
-                    main.main()
+                    main.main('board_lvl_1.txt')
                 else:
                     exit()
             print('You have ',player['health'], 'HP left')

@@ -1,13 +1,13 @@
                                             #### items
-def create_key():
-    key = {
-        'name': 'Key',
+def create_shovel():
+    shovel = {
+        'name': 'Shovel',
         'amount': 1,
         'pos_x': 5,
         'pos_y': 5,
         'icon': 'X',
     }
-    return key
+    return shovel
 
 
 def create_potion(x, y):

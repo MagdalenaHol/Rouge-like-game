@@ -1,7 +1,7 @@
 import util
 import sys
 import random
-import creating_things
+import create
 import battle
 
 def get_file_board(file_name):
@@ -29,7 +29,7 @@ def put_enemy_on_board(enemy, board):
 
 
 def movement_phase(player, key, board):
-    obstacles = ['|', '_']
+    obstacles = ['|', '_', '*', '^']
     while True:
         if key == 'w':
             if board[player['pos_x'] - 1][player['pos_y']] in obstacles:
@@ -72,10 +72,10 @@ def item_pop(item, x):
 
 
 def create_items():
-    key = creating_things.create_key()
-    stick = creating_things.create_stick()
-    potion1 = creating_things.create_potion(13, 13)
-    return key, stick, potion1
+    shovel = create.create_shovel()
+    stick = create.create_stick()
+    potion1 = create.create_potion(13, 13)
+    return shovel, stick, potion1
 
 
 def add_to_inventory(player, item):
@@ -92,15 +92,12 @@ def add_to_inventory(player, item):
 
 
 def is_position_a_border(board, coordinates):
-    #print(coordinates)
     coordinates_on_board = board[coordinates[0]][coordinates[1]]
-    
     return coordinates_on_board == ['|'] or coordinates_on_board == ['-'] 
 
 
 def enemy_direction_move(enemy_X, enemy_Y, board):
     proper_directions = ["w", "s", "a", "d"]
-    # direction_list = ((-1, 0), (1, 0), (0, 1), (0, -1))
     direction_list = [-1,1]
     enemy_position = [enemy_X, enemy_Y]
     current_direction =[]
@@ -114,51 +111,40 @@ def enemy_direction_move(enemy_X, enemy_Y, board):
                 count += 1
     return current_direction
     
-    
-
-
 
 def enemy_move(enemy, board):
     enemy_direction = enemy_direction_move(enemy['pos_x'],enemy['pos_y'], board)
-    # random.choice podpiąć do funkcji enemy_direction_move
-    #  jesli random.choice bedze "w" to daj board z pozycją
     chosen_direction = random.choice(enemy_direction)
-    position = ()
     if chosen_direction == "w":
         board[enemy['pos_x']][enemy['pos_y']] = ' '
         enemy['pos_x'] = enemy['pos_x'] - 1
-    
-
     elif chosen_direction == "s":
         board[enemy['pos_x']][enemy['pos_y']] = ' '
         enemy['pos_x'] = enemy['pos_x'] + 1
-  
     elif chosen_direction == "a":
         board[enemy['pos_x']][enemy['pos_y']] = ' '
         enemy['pos_y'] = enemy['pos_y'] - 1
-  
     elif chosen_direction == "d":
         board[enemy['pos_x']][enemy['pos_y']] = ' '
         enemy['pos_y'] = enemy['pos_y'] + 1
 
 
-
 def events(player, board, items):
-    enemy_1 = creating_things.create_enemy_1()
-    enemy_2 = creating_things.create_enemy_2()
-    enemy_3 = creating_things.create_enemy_3()
+    enemy_1 = create.create_enemy_1()
+    enemy_2 = create.create_enemy_2()
+    enemy_3 = create.create_enemy_3()
     if board[player['pos_x']][player['pos_y']] == 'X':
         board[items[0]['pos_x']][items[0]['pos_y']] == ' '
         add_to_inventory(player, items[0])
-        print('Zdobywasz klucz!')
+        print('Zdobywasz łopatę!')
     if board[player['pos_x']][player['pos_y']] == 'T':
         board[items[1]['pos_x']][items[1]['pos_y']] == ' '
         add_to_inventory(player, items[1])
-        print('Zdobywasz miecz!')
+        print('Zdobywasz patyk!')
     if board[player['pos_x']][player['pos_y']] == 'P':
         board[items[2]['pos_x']][items[2]['pos_y']] == ' '
         add_to_inventory(player, items[2])
-        print('Zdobywasz miksturki!')
+        print('Zdobywasz 3 jagody!')
     if board[player['pos_x']][player['pos_y']] == '§':
         util.clear_screen()
         battle.new_battle(player, enemy_1, board)
@@ -169,8 +155,5 @@ def events(player, board, items):
         util.clear_screen()
         battle.new_battle(player, enemy_3, board)
 
-    # LVL 2
-    if board[player['pos_x']][player['pos_y']] == '▒':
-        pass
 
 
