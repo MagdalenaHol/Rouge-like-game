@@ -1,4 +1,3 @@
-                                            #### items
 def create_key():
     key = {
         'name': 'Key',

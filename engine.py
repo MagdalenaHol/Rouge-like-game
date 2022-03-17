@@ -1,11 +1,6 @@
 import util
 import sys
 import random
-import battle
-import engine
-import creating_things
-
-
 import creating_things
 import battle
 
@@ -66,8 +61,6 @@ def movement_phase(player, key, board):
                 sys.exit()
 
 
-def put_enemy_on_board(enemy, board):
-    board[enemy['pos_x']][enemy['pos_y']] = enemy['icon']
 def put_items_on_board(board, items):
     board[items[0]['pos_x']][items[0]['pos_y']] = items[0]['icon']
     board[items[1]['pos_x']][items[1]['pos_y']] = items[1]['icon']
@@ -149,27 +142,6 @@ def enemy_move(enemy, board):
         enemy['pos_y'] = enemy['pos_y'] + 1
 
 
-def put_items_on_board(board, items):
-    board[items[0]['pos_x']][items[0]['pos_y']] = items[0]['icon']
-    board[items[1]['pos_x']][items[1]['pos_y']] = items[1]['icon']
-    board[items[2]['pos_x']][items[2]['pos_y']] = items[2]['icon']
-
-
-def item_pop(item, x):
-    item.pop(x, None)
-
-
-def add_to_inventory(player, item):
-    item_pop(item, 'pos_y')
-    item_pop(item, 'pos_x')
-    item_pop(item, 'icon')
-    if item["name"] not in player.keys():
-        player['inventory'][item["name"]] = item
-    else:
-        player['inventory'][item["amount"]] += [item["amount"]]
-        pass
-    return player
-
 
 def events(player, board, items):
     enemy_1 = creating_things.create_enemy_1()
@@ -200,11 +172,3 @@ def events(player, board, items):
     # LVL 2
     if board[player['pos_x']][player['pos_y']] == '▒':
         pass
-
-
-def create_items():
-    key = creating_things.create_key()
-    stick = creating_things.create_stick()
-    potion1 = creating_things.create_potion(13, 13)
-    return key, stick, potion1
-
