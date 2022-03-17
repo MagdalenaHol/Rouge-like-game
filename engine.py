@@ -115,7 +115,8 @@ def events(player, board, items):
         battle.new_battle(player, enemy_2, board)
     if board[player['pos_x']][player['pos_y']] == '°':
         util.clear_screen()
-        battle.new_battle(player, enemy_3, board)        
+        battle.new_battle(player, enemy_3, board)
+
 
 
 
