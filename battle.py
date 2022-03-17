@@ -23,4 +23,3 @@ def new_battle(player, enemy, board):
                     exit()
             print('You have ',player['health'], 'HP left')
             input('Press Enter')
-        
