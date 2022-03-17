@@ -1,53 +1,72 @@
 import util
 import engine
 import ui
-
+import creating_things
 PLAYER_ICON = '@'
 PLAYER_START_X = 3
 PLAYER_START_Y = 3
 
-ENEMY_ICON = "E"
-ENEMY_START_X = 4
-ENEMY_START_Y = 4
+# ENEMY_ICON = '§'
+# ENEMY_START_X = 2
+# ENEMY_START_Y = 2
 
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
 
 
-
-<<<<<<< HEAD
 def create_player():
-    player = "@"
-=======
+    '''
+    Creates a 'player' dictionary for storing all player related informations - i.e. player icon, player position.
+    Fell free to extend this dictionary!
     Returns:
     dictionary
     '''
-    player = '@'
->>>>>>> origin/Mateusz
+
+    player = {
+        'name': "Player",
+        'health': 100,
+        'damage': 30,
+        'pos_x': PLAYER_START_X,
+        'pos_y': PLAYER_START_Y,
+        'icon' : PLAYER_ICON,
+        'inventory': {
+                'mushroom': 1,
+                'torch': 22    
+        }
+    }
+
     return player
 
 
 def main():
-    player = create_player(PLAYER_START_X, PLAYER_START_Y)
+    player = create_player()
+    enemy_1 = creating_things.create_enemy_1()
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
+    board[5][5] = 'X'
+    board[7][7] = 'T'
     util.clear_screen()
     is_running = True
-    actual_position = []
     while is_running:
-<<<<<<< HEAD
-        enemy = engine.create_enemy(ENEMY_ICON,ENEMY_START_X,ENEMY_START_Y)
+        engine.put_enemy_on_board(enemy_1, board) 
         engine.put_player_on_board(board, player)
-        engine.put_enemy_on_board(board,enemy)
-=======
-        
-        #engine.put_player_on_board(board, player)
->>>>>>> origin/Mateusz
         ui.display_board(board)
+
+        old_pos_x = player['pos_x']
+        old_pos_y = player['pos_y']
+
         key = util.key_pressed()
         if key == 'q':
             is_running = False
-        actual_position = engine.movement_phase(board, player, actual_position)
+
+        elif key == 'i':
+            ui.display_inventory(player['inventory'])
+            input()
+        else:
+            engine.movement_phase(player, key, board)
+        engine.enemy_move(enemy_1, board)
+        board[old_pos_x][old_pos_y] = ' '
         util.clear_screen()
+        engine.events(player, board)
 
 
 if __name__ == '__main__':
