@@ -1,4 +1,3 @@
-
 import string
 
 def display_board(board):

@@ -34,14 +34,15 @@ def create_player():
                 'torch': 22    
         }
     }
-
     return player
 
 
 def main():
+    levels = []
+    items = engine.create_items()
     player = create_player()
     enemy_1 = creating_things.create_enemy_1()
-    board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
+    board = engine.create_board('board_lvl_1.txt')
     board[5][5] = 'X'
     board[7][7] = 'T'
     util.clear_screen()
@@ -63,10 +64,10 @@ def main():
             input()
         else:
             engine.movement_phase(player, key, board)
-        engine.enemy_move(enemy_1, board)
         board[old_pos_x][old_pos_y] = ' '
         util.clear_screen()
-        engine.events(player, board)
+        engine.events(player, board, items)
+        engine.enemy_move(enemy_1, board)
 
 
 if __name__ == '__main__':
