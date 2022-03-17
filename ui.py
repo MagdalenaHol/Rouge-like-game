@@ -13,6 +13,9 @@ def display_board(board):
 def display_inventory(inventory):
     for key, value in inventory.items():
         print('{}: {}'.format(key, value, end="\n"))    
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 085ccc4499acfdf6fe2e2f9636b7ccb001b4d7a0
 

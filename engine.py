@@ -6,6 +6,9 @@ import engine
 import creating_things
 
 
+import creating_things
+import battle
+
 def get_file_board(file_name):
     file = open(file_name, "r")
     board = file.readlines()
@@ -24,18 +27,10 @@ def create_board(file_name):
 
 def put_player_on_board(board, player):
     board[player['pos_x']][player['pos_y']] = player['icon']
-    
-    '''
-    Modifies the game board by placing the player icon at its coordinates.
-    Args:
-    list: The game board
-    dictionary: The player information containing the icon and coordinates
-    Returns:
-    Nothing
-    '''
 
-    return player
 
+def put_enemy_on_board(enemy, board):
+    board[enemy['pos_x']][enemy['pos_y']] = enemy['icon']
 
 
 def movement_phase(player, key, board):
@@ -70,25 +65,43 @@ def movement_phase(player, key, board):
             if key == 'q':
                 sys.exit()
 
-def create_enemy():    
-    enemy_1 = {
-        'name': "Snake",
-        'health': 15,
-        'damage': 30,
-        'pos_x': 5,
-        'pos_y': 18,
-        'icon' : '§',
-        }
-    return enemy_1
 
 def put_enemy_on_board(enemy, board):
     board[enemy['pos_x']][enemy['pos_y']] = enemy['icon']
+def put_items_on_board(board, items):
+    board[items[0]['pos_x']][items[0]['pos_y']] = items[0]['icon']
+    board[items[1]['pos_x']][items[1]['pos_y']] = items[1]['icon']
+    board[items[2]['pos_x']][items[2]['pos_y']] = items[2]['icon']
 
+
+def item_pop(item, x):
+    item.pop(x, None)
+
+
+def create_items():
+    key = creating_things.create_key()
+    stick = creating_things.create_stick()
+    potion1 = creating_things.create_potion(13, 13)
+    return key, stick, potion1
+
+
+def add_to_inventory(player, item):
+    item_pop(item, 'pos_y')
+    item_pop(item, 'pos_x')
+    item_pop(item, 'icon')
+    if item["name"] not in player.keys():
+        player['inventory'][item["name"]] = item
+    else:
+        player['inventory'][item["amount"]] += [item["amount"]]
+        pass
+    return player
 
 
 
 def is_position_a_border(board, coordinates):
+    #print(coordinates)
     coordinates_on_board = board[coordinates[0]][coordinates[1]]
+    
     return coordinates_on_board == ['|'] or coordinates_on_board == ['-'] 
 
 
@@ -107,6 +120,8 @@ def enemy_direction_move(enemy_X, enemy_Y, board):
                 current_direction.append(proper_directions[count])
                 count += 1
     return current_direction
+    
+    
 
 
 

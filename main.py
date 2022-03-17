@@ -2,7 +2,6 @@ import util
 import engine
 import ui
 import creating_things
-
 PLAYER_ICON = '@'
 PLAYER_START_X = 3
 PLAYER_START_Y = 3
@@ -28,7 +27,6 @@ def create_player():
 
         }
     }
-
     return player
 
 
@@ -36,6 +34,11 @@ def main():
     player = create_player()
     enemy_1 = creating_things.create_enemy_1()
     board = engine.create_board(file_name)
+    levels = []
+    items = engine.create_items()
+    player = create_player()
+    enemy_1 = creating_things.create_enemy_1()
+    board = engine.create_board('board_lvl_1.txt')
     board[5][5] = 'X'
     board[7][7] = 'T'
     util.clear_screen()
@@ -49,7 +52,6 @@ def main():
 
         old_pos_x = player['pos_x']
         old_pos_y = player['pos_y']
-
 
         key = util.key_pressed()
         if key == 'q':
@@ -87,6 +89,8 @@ def main():
             board[old_pos_x][old_pos_y] = ' '
             util.clear_screen()
             engine.events(player, board, items)
+        engine.events(player, board, items)
+        engine.enemy_move(enemy_1, board)
 
 
 if __name__ == '__main__':
