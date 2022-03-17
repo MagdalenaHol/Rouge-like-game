@@ -1,4 +1,3 @@
-
 def put_enemy_on_board(board):
     enemy_1 = creating_things.create_enemy_1()
     board[enemy_1['pos_x']][enemy_1['pos_y']] = enemy_1['icon']

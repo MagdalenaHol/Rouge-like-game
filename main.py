@@ -6,10 +6,6 @@ PLAYER_ICON = '@'
 PLAYER_START_X = 3
 PLAYER_START_Y = 3
 
-# ENEMY_ICON = '§'
-# ENEMY_START_X = 2
-# ENEMY_START_Y = 2
-
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
 
@@ -52,8 +48,7 @@ def main(level):
             engine.put_boss_on_board()                             
         engine.put_player_on_board(board, player)
         ui.display_board(board)
-        old_pos_x = player['pos_x']
-        old_pos_y = player['pos_y']
+        old_pos_x, old_pos_y, enemy_old_pos_x, enemy_old_pos_y = engine.get_old_position(player, enemy_1)
         key = util.key_pressed()
         if key == 'q':
             is_running = False
@@ -63,7 +58,10 @@ def main(level):
             input()
         else:
             engine.movement_phase(player, key, board)
-        board[old_pos_x][old_pos_y] = ' '
+            board[old_pos_x][old_pos_y] = ' '
+            util.clear_screen()
+        engine.enemy_move(enemy_1, board)
+        board[enemy_old_pos_x][enemy_old_pos_y] = ' '
         util.clear_screen()
         engine.events(player, board, items)
         engine.enemy_move(enemy_1, board)
@@ -75,6 +73,4 @@ if __name__ == '__main__':
     levels = ['board_lvl_1.txt', 'board_lvl_2.txt', 'board_lvl_3.txt']
     for level in levels:
         main(level)
-
-
 

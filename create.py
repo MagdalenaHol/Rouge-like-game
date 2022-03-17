@@ -42,8 +42,8 @@ def create_enemy_1():
         'name': "Snake",
         'health': 35,
         'damage': 20,
-        'pos_x': 5,
-        'pos_y': 18,
+        'pos_x': 10,
+        'pos_y': 10,
         'icon': '§',
     }
     return enemy_1
