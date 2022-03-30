@@ -12,7 +12,7 @@ def create_shovel():
 
 def create_potion(x, y):
     potion = {
-        'name': 'potion',
+        'name': 'Potion',
         'amount': 3,
         'healing': 30,
         'pos_x': x,
@@ -25,7 +25,7 @@ def create_potion(x, y):
 def create_stick():
 
     stick = {
-        'name': 'stick',
+        'name': 'Stick',
         'type': 'weapon',
         'amount': 1,
         'damage': 30,
@@ -70,3 +70,14 @@ def create_enemy_3():
         'icon' : ',',
         }
     return enemy_3
+
+def create_boss():    
+    boss = {
+        'name': "Boss",
+        'health': 199,
+        'damage': 7,
+        'pos_x': 10,
+        'pos_y': 10,
+        'icon' : 'B',
+        }
+    return boss
