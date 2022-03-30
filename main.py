@@ -24,7 +24,7 @@ def create_player():
     return player
 
 
-def main(level):    
+def main(level):
     items = engine.create_items()
     player = create_player()
     enemy_1 = create.create_enemy_1()
@@ -38,17 +38,18 @@ def main(level):
     is_running = True
     while is_running:
         """ LVL_1 """
-        engine.put_enemy_on_board(enemy_1, board) 
+        engine.put_enemy_on_board(enemy_1, board)
         """ LVL_2 """
         if level == 'board_lvl_2.txt':
             engine.put_enemy_on_board(enemy_2, board)
             engine.put_enemy_on_board(enemy_3, board)
-        """ LVL_3 """    
-        if level == 'board_lvl_3.txt':           
-            engine.put_boss_on_board()                             
+        """ LVL_3 """
+        if level == 'board_lvl_3.txt':
+            engine.put_boss_on_board()
         engine.put_player_on_board(board, player)
         ui.display_board(board)
-        old_pos_x, old_pos_y, enemy_old_pos_x, enemy_old_pos_y = engine.get_old_position(player, enemy_1)
+        old_pos_x, old_pos_y, enemy_old_pos_x, enemy_old_pos_y = engine.get_old_position(
+            player, enemy_1)
         key = util.key_pressed()
         if key == 'q':
             is_running = False
@@ -73,4 +74,3 @@ if __name__ == '__main__':
     levels = ['board_lvl_1.txt', 'board_lvl_2.txt', 'board_lvl_3.txt']
     for level in levels:
         main(level)
-

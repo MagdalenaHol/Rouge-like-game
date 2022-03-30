@@ -7,32 +7,32 @@ def put_enemy_on_board(board):
     board[enemy_3['pos_x']][enemy_3['pos_y']] = enemy_3['icon']
 
 
-
-
 def movement_phase(board, player, actual_position):
     start_position = [3, 3]
     actual_position = []
     print(actual_position)
     key = util.key_pressed()
     if len(actual_position) > 1:
-            del actual_position[0]
+        del actual_position[0]
     if key == 'd':
         if len(actual_position) == 0:
-                board[start_position[0]][start_position[1] + 1] = player
-                actual_position.append((start_position[0], start_position[1] + 1))
+            board[start_position[0]][start_position[1] + 1] = player
+            actual_position.append((start_position[0], start_position[1] + 1))
         elif len(actual_position) > 0:
-                board[actual_position[0][0]][actual_position[0][1] + 1] = player
-                actual_position.append((actual_position[0][0], actual_position[0][1] + 1))
-                board[actual_position[0][0]][actual_position[0][1]] = '.'
-                print(actual_position)
-                #print(actual_position)
+            board[actual_position[0][0]][actual_position[0][1] + 1] = player
+            actual_position.append(
+                (actual_position[0][0], actual_position[0][1] + 1))
+            board[actual_position[0][0]][actual_position[0][1]] = '.'
+            print(actual_position)
+            # print(actual_position)
     if key == 's':
         if len(actual_position) == 0:
             board[start_position[0] + 1][start_position[1]] = player
             actual_position.append((start_position[0] + 1, start_position[1]))
         elif len(actual_position) > 0:
             board[actual_position[0][0] + 1][actual_position[0][1]] = player
-            actual_position.append((actual_position[0][0] + 1, actual_position[0][1]))
+            actual_position.append(
+                (actual_position[0][0] + 1, actual_position[0][1]))
             board[actual_position[0][0]][actual_position[0][1]] = '.'
     if key == 'a':
         if len(actual_position) == 0:
@@ -40,7 +40,8 @@ def movement_phase(board, player, actual_position):
             actual_position.append((start_position[0], start_position[1] - 1))
         elif len(actual_position) > 0:
             board[actual_position[0][0]][actual_position[0][1] - 1] = player
-            actual_position.append((actual_position[0][0], actual_position[0][1] - 1))
+            actual_position.append(
+                (actual_position[0][0], actual_position[0][1] - 1))
             board[actual_position[0][0]][actual_position[0][1]] = '.'
     if key == 'w':
         if len(actual_position) == 0:
@@ -48,7 +49,5 @@ def movement_phase(board, player, actual_position):
             actual_position.append((start_position[0] - 1, start_position[1]))
         elif len(actual_position) > 0:
             board[actual_position[0][0] - 1][actual_position[0][1]] = player
-            actual_position.append((actual_position[0][0] - 1, actual_position[0][1]))
-
-
-            
+            actual_position.append(
+                (actual_position[0][0] - 1, actual_position[0][1]))

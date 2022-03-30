@@ -9,4 +9,4 @@ def display_board(board):
 
 def display_inventory(inventory):
     for key, value in inventory.items():
-        print('{}: {}'.format(key, value, end="\n"))    
+        print('{}: {}'.format(key, value, end="\n"))
