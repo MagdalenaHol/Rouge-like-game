@@ -1,52 +1,89 @@
 import util
 import engine
 import ui
-
+import create
 PLAYER_ICON = '@'
 PLAYER_START_X = 3
 PLAYER_START_Y = 3
-
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
 
 
 def create_player():
-    '''
-    Creates a 'player' dictionary for storing all player related informations - i.e. player icon, player position.
-    Fell free to extend this dictionary!
-    Returns:
-    dictionary
-    '''
     player = {
         'name': "Player",
         'health': 100,
-        'armor': 50,
         'damage': 30,
         'pos_x': PLAYER_START_X,
         'pos_y': PLAYER_START_Y,
-        'icon' : PLAYER_ICON,
-        'inventory': {}
+        'icon': PLAYER_ICON,
+        'inventory': {
+        }
     }
     return player
 
 
-def main():
-    player = create_player()
-    board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
+def main(level):    
+    items, player, enemy_1, enemy_2, enemy_3, boss = put_players_on_board()
+    board = engine.create_board(level)
+    board[19][29] = '×'
+    board[5][5] = 'X'
+    board[7][7] = 'T'
     util.clear_screen()
     is_running = True
-    actual_position = []
     while is_running:
-        engine.put_enemy_on_board(board) 
-        #engine.put_player_on_board(board, player)
+        engine.put_player_on_board(board, player)
+        """ LVL_1 """
+        if level == 'board_lvl_1.txt':
+            engine.put_enemy_on_board(enemy_1, board) 
+        """ LVL_2 """
+        if level == 'board_lvl_2.txt':
+            engine.put_enemy_on_board(enemy_2, board)
+            engine.put_enemy_on_board(enemy_3, board)
+        """ LVL_3 """    
+        if level == 'board_lvl_3.txt':           
+            engine.put_boss_on_board(boss, board)                             
         ui.display_board(board)
+        old_pos_x = player['pos_x']
+        old_pos_y = player['pos_y']
         key = util.key_pressed()
         if key == 'q':
             is_running = False
-        actual_position = engine.movement_phase(board, player['icon'], actual_position)
+
+        if key == 'i':
+            ui.display_inventory(player['inventory'])
+            input()
+        else:
+            engine.movement_phase(player, key, board)
+        board[old_pos_x][old_pos_y] = ' '
         util.clear_screen()
-        #engine.event(player, board)
+        engine.events(player, board, items)
+        enemies_move(enemy_1, enemy_2, enemy_3, boss, board)
+
+
+        if 'Shovel' in player['inventory'] and board[player['pos_x']][player['pos_y']] == '×':
+            return True
+
+def put_players_on_board():
+    items = engine.create_items()
+    player = create_player()
+    enemy_1 = create.create_enemy_1()
+    enemy_2 = create.create_enemy_2()
+    enemy_3 = create.create_enemy_3()
+    boss = create.create_boss()
+    return items,player,enemy_1,enemy_2,enemy_3,boss
+
+def enemies_move(enemy_1, enemy_2, enemy_3, boss, board):
+    engine.enemy_move(enemy_1, board)
+    engine.enemy_move(enemy_2, board)
+    engine.enemy_move(enemy_3, board)
+    engine.enemy_move(boss, board)
 
 
 if __name__ == '__main__':
-    main()
+    levels = ['board_lvl_3.txt', 'board_lvl_2.txt', 'board_lvl_3.txt']
+    for level in levels:
+        main(level)
+
+
+
