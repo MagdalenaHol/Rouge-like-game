@@ -36,6 +36,10 @@ def main():
             is_running = False
         actual_position = engine.movement_phase(board, player, actual_position)
         util.clear_screen()
+        engine.events(player, board, items)
+        engine.enemy_move(enemy_1, board)
+        if 'Shovel' in player['inventory'] and board[player['pos_x']][player['pos_y']] == '×':
+            return True
 
 
 if __name__ == '__main__':
