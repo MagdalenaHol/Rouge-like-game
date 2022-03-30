@@ -25,6 +25,7 @@ def put_player_on_board(board, player):
     board[player['pos_x']][player['pos_y']] = player['icon']
 
 
+
 def put_enemy_on_board(enemy_1, board):
     board[enemy_1['pos_x']][enemy_1['pos_y']] = enemy_1['icon']
 
@@ -63,7 +64,7 @@ def movement_phase(player, key, board):
 
 def is_position_a_border(board, coordinates):
     coordinates_on_board = board[coordinates[0]][coordinates[0]]
-    return coordinates_on_board == ['|'] or coordinates_on_board == ['_'] 
+    return coordinates_on_board == ['|'] or coordinates_on_board == ['_'] or coordinates_on_board == ['^'] or coordinates_on_board == ['*']
 
 
 def enemy_direction_move(enemy_X, enemy_Y, board):
@@ -83,7 +84,7 @@ def enemy_direction_move(enemy_X, enemy_Y, board):
     
 
 def enemy_move(enemy, board):
-    obstacles = ['|', '_']
+    obstacles = ['|', '_', '*', '^']
     enemy_direction = enemy_direction_move(enemy['pos_x'],enemy['pos_y'], board)
     chosen_direction = random.choice(enemy_direction)
     while True:
@@ -149,38 +150,37 @@ def add_to_inventory(player, item):
         player['inventory'][item["name"]] = item
     else:
         player['inventory'][item["amount"]] += [item["amount"]]
-        pass
-    return player
 
 
 def events(player, board, items):
     enemy_1 = create.create_enemy_1()
     enemy_2 = create.create_enemy_2()
     enemy_3 = create.create_enemy_3()
-    if board[player['pos_x']][player['pos_y']] == 'X':
-        board[items[0]['pos_x']][items[0]['pos_y']] == ' '
+    item = board[player['pos_x']][player['pos_y']]
+    if item == 'X':
+        board[items[0]['pos_x']][items[0]['pos_y']] == ' '  #TODO remove from board
         add_to_inventory(player, items[0])
         print('Zdobywasz łopatę!')
-    if board[player['pos_x']][player['pos_y']] == 'T':
+    if item == 'T':
         board[items[1]['pos_x']][items[1]['pos_y']] == ' '
         add_to_inventory(player, items[1])
         print('Zdobywasz patyk!')
-    if board[player['pos_x']][player['pos_y']] == 'P':
+    if item == 'P':
         board[items[2]['pos_x']][items[2]['pos_y']] == ' '
         add_to_inventory(player, items[2])
         print('Zdobywasz 3 jagody!')
-    if board[player['pos_x']][player['pos_y']] == '§':
+    if item == '§':
         util.clear_screen()
         battle.new_battle(player, enemy_1, board)
-    if board[player['pos_x']][player['pos_y']] == '¤':
+    if item == '¤':
         util.clear_screen()
         battle.new_battle(player, enemy_2, board)
-    if board[player['pos_x']][player['pos_y']] == ',':
+    if item == ',':
         util.clear_screen()
         battle.new_battle(player, enemy_3, board)
 
 
 
     # LVL 2
-    if board[player['pos_x']][player['pos_y']] == '▒':
+    if item == '×':
         pass
