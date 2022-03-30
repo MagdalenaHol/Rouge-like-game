@@ -17,7 +17,16 @@ def create_player():
     Returns:
     dictionary
     '''
-    player = '@'
+    player = {
+        'name': "Player",
+        'health': 100,
+        'armor': 50,
+        'damage': 30,
+        'pos_x': PLAYER_START_X,
+        'pos_y': PLAYER_START_Y,
+        'icon' : PLAYER_ICON,
+        'inventory': {}
+    }
     return player
 
 
@@ -28,18 +37,15 @@ def main():
     is_running = True
     actual_position = []
     while is_running:
-        
+        engine.put_enemy_on_board(board) 
         #engine.put_player_on_board(board, player)
         ui.display_board(board)
         key = util.key_pressed()
         if key == 'q':
             is_running = False
-        actual_position = engine.movement_phase(board, player, actual_position)
+        actual_position = engine.movement_phase(board, player['icon'], actual_position)
         util.clear_screen()
-        engine.events(player, board, items)
-        engine.enemy_move(enemy_1, board)
-        if 'Shovel' in player['inventory'] and board[player['pos_x']][player['pos_y']] == '×':
-            return True
+        #engine.event(player, board)
 
 
 if __name__ == '__main__':
