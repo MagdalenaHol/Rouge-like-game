@@ -9,6 +9,8 @@ def new_battle(player, enemy, board):
         if enemy['health'] <= 0 and enemy['name'] == 'Boss':
                 again = input('You killed the boss!\n Wanna play again? (y/n): ')
                 while not again.startswith('y'):
+                    again = input('Wanna play again? (y/n): ')
+                if again.startswith('y'):
                     main.main('board_lvl_1.txt')
         if enemy['health'] <= 0:
             print('You killed a ', enemy['name'])

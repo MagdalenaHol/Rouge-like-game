@@ -4,6 +4,7 @@ import random
 import create
 import battle
 
+
 def get_file_board(file_name):
     file = open(file_name, "r")
     board = file.readlines()
@@ -31,7 +32,6 @@ def put_enemy_on_board(enemy, board):
         board[enemy['pos_x']][enemy['pos_y']] = ' '
     
 
-
 def put_boss_on_board(boss, board):
     for row in range(len(board)):
             for column in range(len(board[row])):
@@ -43,7 +43,7 @@ def put_boss_on_board(boss, board):
             board[boss["pos_x"] + i][boss["pos_y"] + j] = boss["icon"]
 
 
-def movement_phase(player, key, board):
+def player_move(player, key, board):
     obstacles = ['|', '_', '*', '^']
     while True:
         if key == 'w':
@@ -112,14 +112,6 @@ def enemy_move(enemy, board):
                 board[enemy['pos_x']][enemy['pos_y']] = ' '
                 enemy['pos_y'] = enemy['pos_y'] + 1
                 break
-
-
-def get_old_position(player, enemy_1):
-    old_pos_x = player['pos_x']
-    old_pos_y = player['pos_y']
-    enemy_1_old_pos_x = enemy_1['pos_x']
-    enemy_1_old_pos_y = enemy_1['pos_y']
-    return old_pos_x,old_pos_y,enemy_1_old_pos_x,enemy_1_old_pos_y
 
 
 def put_items_on_board(board, items):

@@ -56,7 +56,7 @@ def main(level):
             ui.display_inventory(player['inventory'])
             input()
         else:
-            engine.movement_phase(player, key, board)
+            engine.player_move(player, key, board)
         board[old_pos_x][old_pos_y] = ' '
         util.clear_screen()
         engine.events(player, board, items, enemy_1, enemy_2, enemy_3, boss)
