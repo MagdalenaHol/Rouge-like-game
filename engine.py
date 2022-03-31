@@ -3,7 +3,6 @@ import sys
 import random
 import create
 import battle
-import copy
 
 
 def get_file_board(file_name):
@@ -26,14 +25,32 @@ def put_player_on_board(board, player):
     board[player['pos_x']][player['pos_y']] = player['icon']
 
 
-def put_enemy_on_board(enemy_1, board):
-    board[enemy_1['pos_x']][enemy_1['pos_y']] = enemy_1['icon']
+def put_enemy_on_board(enemy, board):
+    if enemy['is_alive']:
+        board[enemy['pos_x']][enemy['pos_y']] = enemy['icon']
+    if not enemy['is_alive']:
+        board[enemy['pos_x']][enemy['pos_y']] = ' '
+
+
+def put_boss_on_board(boss, board):
+    for row in range(len(board)):
+        for column in range(len(board[row])):
+            if board[row][column] == 'B':
+                board[row][column] = ' '
+    for i in range(5):
+        board[boss["pos_x"] + i][boss["pos_y"]] = boss["icon"]
+        for j in range(5):
+            board[boss["pos_x"] + i][boss["pos_y"] + j] = boss["icon"]
 
 
 def movement_phase(player, key, board):
     obstacles = ['|', '_', '*', '^']
     while True:
         if key == 'w':
+            if player["name"] == 'Boss':
+                for i in range(5):
+                    if board[player["pos_x"] - 1][player["pos_y"] + i] in obstacles:
+                        break
             if board[player['pos_x'] - 1][player['pos_y']] in obstacles:
                 break
             else:
@@ -63,32 +80,9 @@ def movement_phase(player, key, board):
                 sys.exit()
 
 
-def is_position_a_border(board, coordinates):
-    coordinates_on_board = board[coordinates[0]][coordinates[0]]
-    return coordinates_on_board == ['|'] or coordinates_on_board == ['_']
-
-
-def enemy_direction_move(enemy_X, enemy_Y, board):
-    proper_directions = ["w", "s", "a", "d"]
-    direction_list = [1, 2]
-    enemy_position = [enemy_X, enemy_Y]
-    current_direction = []
-    count = 0
-    for move in range(2):
-        enemy_coordinates = copy.deepcopy(enemy_position)
-        for direction in direction_list:
-            enemy_coordinates[move] += direction
-            if not is_position_a_border(board, enemy_coordinates):
-                current_direction.append(proper_directions[count])
-                count += 1
-    return current_direction
-
-
 def enemy_move(enemy, board):
-    obstacles = ['|', '_']
-    enemy_direction = enemy_direction_move(
-        enemy['pos_x'], enemy['pos_y'], board)
-    chosen_direction = random.choice(enemy_direction)
+    obstacles = ['|', '_', '*', '^', 'x', 'T', 'X']
+    chosen_direction = random.choice(['w', 's', 'a', 'd'])
     while True:
         if chosen_direction == "w":
             if board[enemy['pos_x']-1][enemy['pos_y']] in obstacles:
@@ -117,6 +111,7 @@ def enemy_move(enemy, board):
             else:
                 board[enemy['pos_x']][enemy['pos_y']] = ' '
                 enemy['pos_y'] = enemy['pos_y'] + 1
+                break
 
 
 def get_old_position(player, enemy_1):
@@ -152,36 +147,32 @@ def add_to_inventory(player, item):
         player['inventory'][item["name"]] = item
     else:
         player['inventory'][item["amount"]] += [item["amount"]]
-        pass
-    return player
 
 
-def events(player, board, items):
-    enemy_1 = create.create_enemy_1()
-    enemy_2 = create.create_enemy_2()
-    enemy_3 = create.create_enemy_3()
-    if board[player['pos_x']][player['pos_y']] == 'X':
-        board[items[0]['pos_x']][items[0]['pos_y']] == ' '
+def events(player, board, items, enemy_1, enemy_2, enemy_3, boss):
+    item = board[player['pos_x']][player['pos_y']]
+    if item == 'X':
+        board[items[0]['pos_x']][items[0]['pos_y']
+                                 ] == ' '  # TODO remove from board
         add_to_inventory(player, items[0])
         print('Zdobywasz łopatę!')
-    if board[player['pos_x']][player['pos_y']] == 'T':
+    if item == 'T':
         board[items[1]['pos_x']][items[1]['pos_y']] == ' '
         add_to_inventory(player, items[1])
         print('Zdobywasz patyk!')
-    if board[player['pos_x']][player['pos_y']] == 'P':
+    if item == 'P':
         board[items[2]['pos_x']][items[2]['pos_y']] == ' '
         add_to_inventory(player, items[2])
         print('Zdobywasz 3 jagody!')
-    if board[player['pos_x']][player['pos_y']] == '§':
+    if item == '§':
         util.clear_screen()
         battle.new_battle(player, enemy_1, board)
-    if board[player['pos_x']][player['pos_y']] == '¤':
+    if item == '¤':
         util.clear_screen()
         battle.new_battle(player, enemy_2, board)
-    if board[player['pos_x']][player['pos_y']] == ',':
+    if item == ',':
         util.clear_screen()
         battle.new_battle(player, enemy_3, board)
-
-    # LVL 2
-    if board[player['pos_x']][player['pos_y']] == '▒':
-        pass
+    if item == 'B':
+        util.clear_screen()
+        battle.new_battle(player, boss, board)

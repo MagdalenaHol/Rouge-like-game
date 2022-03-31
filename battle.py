@@ -6,8 +6,14 @@ def new_battle(player, enemy, board):
     print("Your hit takes:", player['damage'])
     while True:
         enemy['health'] = enemy['health'] - player['damage']
-        if enemy['health'] < 0:
+        if enemy['health'] <= 0 and enemy['name'] == 'Boss':
+                again = input('You killed the boss!\n Wanna play again? (y/n): ')
+                while not again.startswith('y'):
+                    main.main('board_lvl_1.txt')
+        if enemy['health'] <= 0:
             print('You killed a ', enemy['name'])
+            enemy['is_alive'] = False
+            board[enemy['pos_x']][enemy['pos_y']] = ' '
             input('Press Enter')
             break
         else:
