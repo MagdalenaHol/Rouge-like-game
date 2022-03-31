@@ -21,9 +21,9 @@ def create_player():
         }
     }
     return player
- 
 
-def main(level):    
+
+def main(level):
     items, player, enemy_1, enemy_2, enemy_3, boss = create_players()
     board = engine.create_board(level)
     board[19][29] = 'x'
@@ -43,9 +43,9 @@ def main(level):
                 engine.put_enemy_on_board(enemy_2, board)
             if enemy_3['is_alive']:
                 engine.put_enemy_on_board(enemy_3, board)
-        """ LVL_3 """    
-        if level == 'board_lvl_3.txt':           
-            engine.put_boss_on_board(boss, board)                             
+        """ LVL_3 """
+        if level == 'board_lvl_3.txt':
+            engine.put_boss_on_board(boss, board)
         ui.display_board(board)
         old_pos_x = player['pos_x']
         old_pos_y = player['pos_y']
@@ -72,7 +72,7 @@ def create_players():
     enemy_2 = create.create_enemy_2()
     enemy_3 = create.create_enemy_3()
     boss = create.create_boss()
-    return items,player,enemy_1,enemy_2,enemy_3,boss
+    return items, player, enemy_1, enemy_2, enemy_3, boss
 
 
 def enemies_move(enemy_1, enemy_2, enemy_3, boss, board):
@@ -86,6 +86,3 @@ if __name__ == '__main__':
     levels = ['board_lvl_1.txt', 'board_lvl_2.txt', 'board_lvl_3.txt']
     for level in levels:
         main(level)
-
-
-
