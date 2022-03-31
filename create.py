@@ -40,6 +40,7 @@ def create_stick():
 def create_enemy_1():
     enemy_1 = {
         'name': "Snake",
+        'is_alive': True,
         'health': 35,
         'damage': 20,
         'pos_x': 10,
@@ -52,6 +53,7 @@ def create_enemy_1():
 def create_enemy_2():    
     enemy_2 = {
         'name': "Boar",
+        'is_alive': True,
         'health': 70,
         'damage': 40,
         'pos_x': 18,
@@ -63,6 +65,7 @@ def create_enemy_2():
 def create_enemy_3():    
     enemy_3 = {
         'name': "Mosquito",
+        'is_alive': True,
         'health': 1,
         'damage': 99,
         'pos_x': 17,
@@ -74,6 +77,7 @@ def create_enemy_3():
 def create_boss():    
     boss = {
         'name': "Boss",
+        'is_alive': True,
         'health': 199,
         'damage': 7,
         'pos_x': 10,

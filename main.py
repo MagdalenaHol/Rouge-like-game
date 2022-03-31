@@ -21,12 +21,12 @@ def create_player():
         }
     }
     return player
-
+ 
 
 def main(level):    
-    items, player, enemy_1, enemy_2, enemy_3, boss = put_players_on_board()
+    items, player, enemy_1, enemy_2, enemy_3, boss = create_players()
     board = engine.create_board(level)
-    board[19][29] = '×'
+    board[19][29] = 'x'
     board[5][5] = 'X'
     board[7][7] = 'T'
     util.clear_screen()
@@ -35,7 +35,11 @@ def main(level):
         engine.put_player_on_board(board, player)
         """ LVL_1 """
         if level == 'board_lvl_1.txt':
-            engine.put_enemy_on_board(enemy_1, board) 
+            if enemy_1['is_alive']:
+
+                engine.put_enemy_on_board(enemy_1, board)
+            if enemy_1['is_alive'] is False:
+                print('dead')
         """ LVL_2 """
         if level == 'board_lvl_2.txt':
             engine.put_enemy_on_board(enemy_2, board)
@@ -49,7 +53,6 @@ def main(level):
         key = util.key_pressed()
         if key == 'q':
             is_running = False
-
         if key == 'i':
             ui.display_inventory(player['inventory'])
             input()
@@ -57,14 +60,13 @@ def main(level):
             engine.movement_phase(player, key, board)
         board[old_pos_x][old_pos_y] = ' '
         util.clear_screen()
-        engine.events(player, board, items)
+        engine.events(player, board, items, enemy_1, enemy_2, enemy_3, boss)
         enemies_move(enemy_1, enemy_2, enemy_3, boss, board)
-
-
-        if 'Shovel' in player['inventory'] and board[player['pos_x']][player['pos_y']] == '×':
+        if 'Shovel' in player['inventory'] and board[player['pos_x']][player['pos_y']] == 'x':
             return True
 
-def put_players_on_board():
+
+def create_players():
     items = engine.create_items()
     player = create_player()
     enemy_1 = create.create_enemy_1()
@@ -72,6 +74,7 @@ def put_players_on_board():
     enemy_3 = create.create_enemy_3()
     boss = create.create_boss()
     return items,player,enemy_1,enemy_2,enemy_3,boss
+
 
 def enemies_move(enemy_1, enemy_2, enemy_3, boss, board):
     engine.enemy_move(enemy_1, board)
@@ -81,7 +84,7 @@ def enemies_move(enemy_1, enemy_2, enemy_3, boss, board):
 
 
 if __name__ == '__main__':
-    levels = ['board_lvl_3.txt', 'board_lvl_2.txt', 'board_lvl_3.txt']
+    levels = ['board_lvl_1.txt', 'board_lvl_2.txt', 'board_lvl_3.txt']
     for level in levels:
         main(level)
 
