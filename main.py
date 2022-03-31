@@ -6,7 +6,7 @@ PLAYER_ICON = '@'
 PLAYER_START_X = 3
 PLAYER_START_Y = 3
 
-BOARD_WIDTH = 30
+wBOARD_WIDTH = 30
 BOARD_HEIGHT = 20
 
 
@@ -31,9 +31,8 @@ def main(level):
     enemy_2 = create.create_enemy_2()
     enemy_3 = create.create_enemy_3()
     board = engine.create_board(level)
+    engine.put_items_on_board(board, items)
     board[19][29] = '░'
-    board[5][5] = 'X'
-    board[7][7] = 'T'
     util.clear_screen()
     is_running = True
     while is_running:
@@ -56,6 +55,16 @@ def main(level):
 
         elif key == 'i':
             ui.display_inventory(player['inventory'])
+            if len(player['inventory']) != 0:
+                print("press y to use items")
+            key = util.key_pressed()
+            if key == "y" and len(player['inventory']) != 0:
+                print("player")
+                print(player)
+                engine.using_items(player)
+                print("player")
+                print(player)
+                engine.check_amount(player['inventory'])
             input()
         else:
             engine.movement_phase(player, key, board)

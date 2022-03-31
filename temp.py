@@ -51,3 +51,5 @@ def movement_phase(board, player, actual_position):
             board[actual_position[0][0] - 1][actual_position[0][1]] = player
             actual_position.append(
                 (actual_position[0][0] - 1, actual_position[0][1]))
+
+

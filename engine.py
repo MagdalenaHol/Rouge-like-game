@@ -4,6 +4,7 @@ import random
 import create
 import battle
 import copy
+import ui
 
 
 def get_file_board(file_name):
@@ -65,7 +66,7 @@ def movement_phase(player, key, board):
 
 def is_position_a_border(board, coordinates):
     coordinates_on_board = board[coordinates[0]][coordinates[0]]
-    return coordinates_on_board == ['|'] or coordinates_on_board == ['_']
+    return coordinates_on_board == ['|'] or coordinates_on_board == ['_'] or coordinates_on_board == ['^'] or coordinates_on_board == ['*']
 
 
 def enemy_direction_move(enemy_X, enemy_Y, board):
@@ -85,7 +86,7 @@ def enemy_direction_move(enemy_X, enemy_Y, board):
 
 
 def enemy_move(enemy, board):
-    obstacles = ['|', '_']
+    obstacles = ['|', '_', '*', '^']
     enemy_direction = enemy_direction_move(
         enemy['pos_x'], enemy['pos_y'], board)
     chosen_direction = random.choice(enemy_direction)
@@ -117,6 +118,7 @@ def enemy_move(enemy, board):
             else:
                 board[enemy['pos_x']][enemy['pos_y']] = ' '
                 enemy['pos_y'] = enemy['pos_y'] + 1
+                break
 
 
 def get_old_position(player, enemy_1):
@@ -131,57 +133,86 @@ def put_items_on_board(board, items):
     board[items[0]['pos_x']][items[0]['pos_y']] = items[0]['icon']
     board[items[1]['pos_x']][items[1]['pos_y']] = items[1]['icon']
     board[items[2]['pos_x']][items[2]['pos_y']] = items[2]['icon']
-
-
-def item_pop(item, x):
-    item.pop(x, None)
+    board[items[3]['pos_x']][items[3]['pos_y']] = items[3]['icon']
 
 
 def create_items():
     shovel = create.create_shovel()
     stick = create.create_stick()
-    potion1 = create.create_potion(13, 13)
-    return shovel, stick, potion1
+    potion1 = create.create_potion(2, 2)
+    mushroom = create.create_mushroom(4, 3)
+    return shovel, stick, potion1, mushroom
 
 
 def add_to_inventory(player, item):
-    item_pop(item, 'pos_y')
-    item_pop(item, 'pos_x')
-    item_pop(item, 'icon')
-    if item["name"] not in player.keys():
-        player['inventory'][item["name"]] = item
+    item_ = copy.deepcopy(item)
+    """item_pop(item_, 'pos_y')
+    item_pop(item_, 'pos_x')
+    item_pop(item_, 'icon')"""
+    if item_["name"] not in player.keys():
+        player['inventory'][item_["name"]] = item_
     else:
-        player['inventory'][item["amount"]] += [item["amount"]]
-        pass
-    return player
+        player['inventory'][item_["amount"]] += [item_["amount"]]
+
+
+def using_items(player: dict):
+    print()
+    if len(player['inventory']) != 0:
+        print("items you can use:")
+        for name, items in player['inventory'].items():
+            for k, v in items.items():
+                if k == "usable" and v == "yes":
+
+                    print()
+                    ui.display_items(items)
+        print("Enter first letter of item you wanna use")
+        char = util.key_pressed()
+        for name, items in player['inventory'].items():
+            if items["name"][0] == char.upper():
+                player["health"] += items["healing"]
+                items["amount"] -= 1
+
+
+def check_amount(player: dict):
+    for key, items in player.items():
+        if items["amount"] == 0:
+            player.pop(items["name"].capitalize())
+            break
 
 
 def events(player, board, items):
     enemy_1 = create.create_enemy_1()
     enemy_2 = create.create_enemy_2()
     enemy_3 = create.create_enemy_3()
-    if board[player['pos_x']][player['pos_y']] == 'X':
-        board[items[0]['pos_x']][items[0]['pos_y']] == ' '
+    item = board[player['pos_x']][player['pos_y']]
+    if item == 'X':
+        board[items[0]['pos_x']][items[0]['pos_y']
+                                 ] == ' '  # TODO remove from board
         add_to_inventory(player, items[0])
         print('Zdobywasz łopatę!')
-    if board[player['pos_x']][player['pos_y']] == 'T':
+    if item == 'T':
         board[items[1]['pos_x']][items[1]['pos_y']] == ' '
         add_to_inventory(player, items[1])
+        player["damage"] += items[1]["damage"]
         print('Zdobywasz patyk!')
-    if board[player['pos_x']][player['pos_y']] == 'P':
+    if item == 'P':
         board[items[2]['pos_x']][items[2]['pos_y']] == ' '
         add_to_inventory(player, items[2])
         print('Zdobywasz 3 jagody!')
-    if board[player['pos_x']][player['pos_y']] == '§':
+    if item == 'M':
+        board[items[3]['pos_x']][items[3]['pos_y']] == ' '
+        add_to_inventory(player, items[3])
+        print('Zdobywasz 3 grzyby!')
+    if item == '§':
         util.clear_screen()
         battle.new_battle(player, enemy_1, board)
-    if board[player['pos_x']][player['pos_y']] == '¤':
+    if item == '¤':
         util.clear_screen()
         battle.new_battle(player, enemy_2, board)
-    if board[player['pos_x']][player['pos_y']] == ',':
+    if item == ',':
         util.clear_screen()
         battle.new_battle(player, enemy_3, board)
 
     # LVL 2
-    if board[player['pos_x']][player['pos_y']] == '▒':
+    if item == '×':
         pass
