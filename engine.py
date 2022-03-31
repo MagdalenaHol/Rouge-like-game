@@ -28,7 +28,7 @@ def put_enemy_on_board(enemy, board):
     if enemy['is_alive']:
         board[enemy['pos_x']][enemy['pos_y']] = enemy['icon']
     if not enemy['is_alive']:
-        board[enemy['pos_x']][enemy['pos_y']] = ' '    #TODO
+        board[enemy['pos_x']][enemy['pos_y']] = ' '
     
 
 
@@ -150,7 +150,6 @@ def add_to_inventory(player, item):
 
 
 def events(player, board, items, enemy_1, enemy_2, enemy_3, boss):
-    boss = create.create_boss()
     item = board[player['pos_x']][player['pos_y']]
     if item == 'X':
         board[items[0]['pos_x']][items[0]['pos_y']] == ' '  #TODO remove from board

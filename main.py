@@ -36,14 +36,13 @@ def main(level):
         """ LVL_1 """
         if level == 'board_lvl_1.txt':
             if enemy_1['is_alive']:
-
                 engine.put_enemy_on_board(enemy_1, board)
-            if enemy_1['is_alive'] is False:
-                print('dead')
         """ LVL_2 """
         if level == 'board_lvl_2.txt':
-            engine.put_enemy_on_board(enemy_2, board)
-            engine.put_enemy_on_board(enemy_3, board)
+            if enemy_2['is_alive']:
+                engine.put_enemy_on_board(enemy_2, board)
+            if enemy_3['is_alive']:
+                engine.put_enemy_on_board(enemy_3, board)
         """ LVL_3 """    
         if level == 'board_lvl_3.txt':           
             engine.put_boss_on_board(boss, board)                             
