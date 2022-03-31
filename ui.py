@@ -8,7 +8,7 @@ def display_board(board):
 
 
 def display_inventory(inventory):
-    
+
     for key, value in inventory.items():
         print('{}: '.format(key,  end="\n"))
         for k, v in value.items():
