@@ -167,7 +167,6 @@ def check_amount(player: dict):
             player.pop(items["name"].capitalize())
             break
 
-
 def events(player, board, items, enemy_1, enemy_2, enemy_3, boss):
 
     item = board[player['pos_x']][player['pos_y']]

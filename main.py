@@ -67,7 +67,7 @@ def main(level):
         engine.events(player, board, items, enemy_1, enemy_2, enemy_3, boss)
         enemies_move(enemy_1, enemy_2, enemy_3, boss, board)
         if 'Shovel' in player['inventory'] and board[player['pos_x']][player['pos_y']] == 'x':
-            return True
+            return 
 
 
 def create_players():
